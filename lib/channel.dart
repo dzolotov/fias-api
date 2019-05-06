@@ -62,6 +62,6 @@ class SearchLevelByText extends ResourceController {
     query.where((a) => a.aolevel).equalTo(level);
     query.where((a) => a.formalname).contains(text, caseSensitive: false);
     query.fetchLimit = 10;
-    return Response.ok(await query.fetch());
+    return Response.ok({"data": await query.fetch()});
   }
 }
