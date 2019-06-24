@@ -1,4 +1,5 @@
 import 'package:aqueduct/aqueduct.dart';
+import 'package:aqueduct/aqueduct.dart' as prefix0;
 
 class SocrbaseORM extends ManagedObject<socrbase> implements socrbase {}
 
@@ -129,4 +130,94 @@ class addrobj {
 
   @Column(nullable: true)
   String parentguid;
+}
+
+class HouseORM extends ManagedObject<house> implements house {}
+
+class house {
+  @Column(primaryKey: false)
+  String aoguid;
+
+  @Column(primaryKey: false)
+  String buildnum;
+
+  @Column(primaryKey: false)
+  DateTime enddate;
+
+  @Column(primaryKey: false)
+  String eststatus;
+
+  @Column(primaryKey: true)
+  String houseguid;
+
+  @Column(primaryKey: false)
+  String houseid;
+
+  @Column(primaryKey: false)
+  String housenum;
+
+  @Column(primaryKey: false)
+  String okato;
+
+  @Column(primaryKey: false)
+  String oktmo;
+
+  @Column(primaryKey: false)
+  String postalcode;
+
+  @Column(primaryKey: false)
+  DateTime startdate;
+}
+
+class FlatTypeORM extends ManagedObject<flattype> implements flattype {}
+
+class flattype {
+  @Column(primaryKey: true)
+  String fltypeid;
+
+  @Column(primaryKey: false)
+  String name;
+
+  @Column(primaryKey: false)
+  String shortname;
+}
+
+class RoomORM extends ManagedObject<room> implements room {}
+
+class room {
+  @Column(primaryKey: false)
+  String roomid;
+
+  @Column(primaryKey: true)
+  String roomguid;
+
+  @Column(primaryKey: false)
+  String houseguid;
+
+  @Column(primaryKey: false)
+  String regioncode;
+
+  @Column(primaryKey: false)
+  String flatnumber;
+
+  @Column(primaryKey: false)
+  String flattype;
+
+  @Column(primaryKey: false)
+  String roomnumber;
+
+  @Column(primaryKey: false)
+  String roomtype;
+
+  @Column(primaryKey: false)
+  String postalcode;
+
+  @Column(primaryKey: false)
+  DateTime startdate;
+
+  @Column(primaryKey: false)
+  DateTime enddate;
+
+  @Column(primaryKey: false)
+  String livestatus;
 }
