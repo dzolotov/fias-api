@@ -115,6 +115,7 @@ class SearchHomeForStreet extends ResourceController {
       var bnum = p.buildnum;
       if (bnum==null) bnum = "0";
       if (bnum=="") bnum = "0";
+      bnum = p.housenum+"-"+bnum;
       if (!buildings.containsKey(bnum)) {
         buildings[bnum] = 1;
         mapped.add(p.asMap());
