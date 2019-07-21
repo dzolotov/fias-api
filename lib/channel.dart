@@ -101,18 +101,22 @@ class SearchHomeForStreet extends ResourceController {
   FutureOr<Response> searchByStreetAndBuilding(@Bind.path("streetid") String streetid, @Bind.path("text") String text, @Bind.path("building") String building) async {
     var query = Query<HouseORM>(context);
     query.where((a) => a.aoguid).equalTo(streetid);
-    query.where((a) => a.housenum).beginsWith(text, caseSensitive: false);
+    query.where((a) => a.housenum).contains(text, caseSensitive: false);
     if (building!=null) {
-      query.where((a) => a.buildnum).beginsWith(building, caseSensitive: false);
+      query.where((a) => a.buildnum).contains(building, caseSensitive: false);
     }
     query.sortBy((a) => a.buildnum, QuerySortOrder.ascending);
     query.sortBy((a) => a.startdate, QuerySortOrder.descending);
+    query.fetchLimit = 10;
     var pdata = await query.fetch();
     var buildings = {};
     var mapped = [];
     for (var p in await pdata) {
-      if (!buildings.containsKey(p.buildnum)) {
-        buildings[p.buildnum] = 1;
+      var bnum = p.buildnum;
+      if (bnum==null) bnum = "0";
+      if (bnum=="") bnum = "0";
+      if (!buildings.containsKey(bnum)) {
+        buildings[bnum] = 1;
         mapped.add(p.asMap());
       }
     }
