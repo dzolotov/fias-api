@@ -101,9 +101,9 @@ class SearchHomeForStreet extends ResourceController {
   FutureOr<Response> searchByStreetAndBuilding(@Bind.path("streetid") String streetid, @Bind.path("text") String text, @Bind.path("building") String building) async {
     var query = Query<HouseORM>(context);
     query.where((a) => a.aoguid).equalTo(streetid);
-    query.where((a) => a.housenum).contains(text, caseSensitive: false);
+    query.where((a) => a.housenum).beginsWith(text, caseSensitive: false);
     if (building!=null) {
-      query.where((a) => a.buildnum).contains(building, caseSensitive: false);
+      query.where((a) => a.buildnum).beginsWith(building, caseSensitive: false);
     }
     query.sortBy((a) => a.buildnum, QuerySortOrder.ascending);
     query.sortBy((a) => a.startdate, QuerySortOrder.descending);
