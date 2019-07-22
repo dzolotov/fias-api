@@ -2,7 +2,6 @@ import 'package:api/datamodel.dart';
 import 'package:aqueduct/aqueduct.dart';
 
 import 'api.dart';
-import 'controllers/ManagedSearchableObjectController.dart';
 
 class ApiChannel extends ApplicationChannel {
   ManagedContext context;
@@ -33,15 +32,6 @@ class ApiChannel extends ApplicationChannel {
     router
         .route("/abbr[/:id]")
         .link(() => ManagedObjectController<SocrbaseORM>(context));
-    var p =
-    ManagedSearchableObjectController<AddrObjORM>(context, ["areacode"]);
-    router.route("/address/ac/:areacode").link(() => p);
-    router.route("/address/cc/:citycode").link(() =>
-        ManagedSearchableObjectController<AddrObjORM>(context, ["citycode"]));
-    router.route("/address/level/:aolevel").link(() =>
-        ManagedSearchableObjectController<AddrObjORM>(context, ["#aolevel"]));
-    router.route("/address/uuid/:aoguid").link(() =>
-        ManagedSearchableObjectController<AddrObjORM>(context, ["aoguid"]));
     router
         .route("/search/level/:level/:text")
         .link(() => SearchLevelByText(context));
@@ -101,9 +91,9 @@ class SearchHomeForStreet extends ResourceController {
   FutureOr<Response> searchByStreetAndBuilding(@Bind.path("streetid") String streetid, @Bind.path("text") String text, @Bind.path("building") String building) async {
     var query = Query<HouseORM>(context);
     query.where((a) => a.aoguid).equalTo(streetid);
-    query.where((a) => a.housenum).contains(text, caseSensitive: false);
+    query.where((a) => a.housenum).beginsWith(text, caseSensitive: false);
     if (building!=null) {
-      query.where((a) => a.buildnum).contains(building, caseSensitive: false);
+      query.where((a) => a.buildnum).beginsWith(building, caseSensitive: false);
     }
     query.sortBy((a) => a.housenum, QuerySortOrder.ascending);
     query.sortBy((a) => a.buildnum, QuerySortOrder.ascending);
