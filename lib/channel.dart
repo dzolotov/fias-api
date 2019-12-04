@@ -87,7 +87,7 @@ class SearchHomeForStreet extends ResourceController {
 class SearchLevelByText extends ResourceController {
   ManagedContext context;
 
-  SearchLevelByText(this.context)
+  SearchLevelByText(this.context);
 
   @Operation.get("level", "text")
   FutureOr<Response> searchByLevelAndText(
