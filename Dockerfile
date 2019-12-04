@@ -1,4 +1,4 @@
-FROM google/dart:dev
+FROM google/dart:2.5
 
 RUN pub global activate aqueduct
 
