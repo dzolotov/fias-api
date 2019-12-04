@@ -41,44 +41,7 @@ class ApiChannel extends ApplicationChannel {
     router.route("/ping").linkFunction((req) async => Response.ok("pong"));
     router.route("/search/homes/:streetid/:text[/:building]").link(() =>
         SearchHomeForStreet(context));
-    router.route("/search/flats/:homeid/:text").link(() =>
-        SearchFlatInHome(context));
     return router;
-  }
-}
-
-class SearchFlatInHome extends ResourceController {
-  ManagedContext context;
-
-  var types =
-  {
-    "0": "не опр.",
-    "1": "помещ.",
-    "2": "кв.",
-    "3": "оф.",
-    "4": "ком.",
-    "5": "раб. уч.",
-    "6": "скл.",
-    "7": "торг. зал",
-    "8": "цех",
-    "9": "пав.",
-    "10": "г-ж"
-  };
-
-  SearchFlatInHome(this.context);
-
-  @Operation.get("homeid","text")
-  FutureOr<Response> searchFlatInHome(@Bind.path("homeid") String homeguid, @Bind.path("text") String text) async {
-    var query = Query<RoomORM>(context);
-    query.where((a) => a.houseguid).equalTo(homeguid);
-    query.where((a) => a.flatnumber).beginsWith(text, caseSensitive: false);
-    query.sortBy((a) => a.flatnumber, QuerySortOrder.ascending);
-    query.fetchLimit = 10;
-    var mapped = [
-      for (var p in await query.fetch()) p.asMap()..putIfAbsent("type", () => types[p.flattype.codeUnitAt(9).toString() ])
-    ];
-    print(mapped);
-    return Response.ok({"data": mapped});
   }
 }
 
@@ -124,7 +87,7 @@ class SearchHomeForStreet extends ResourceController {
 class SearchLevelByText extends ResourceController {
   ManagedContext context;
 
-  SearchLevelByText(this.context);
+  SearchLevelByText(this.context)
 
   @Operation.get("level", "text")
   FutureOr<Response> searchByLevelAndText(
