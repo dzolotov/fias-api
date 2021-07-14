@@ -81,12 +81,6 @@ class addrobj {
   DateTime startdate;
 
   @Column(nullable: true)
-  String terrifnsfl;
-
-  @Column(nullable: true)
-  String terrifnsul;
-
-  @Column(nullable: true)
   DateTime updatedate;
 
   @Column(nullable: true)
